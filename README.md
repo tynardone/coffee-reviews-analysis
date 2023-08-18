@@ -1,7 +1,6 @@
 <img title="coffee-beans" alt="Coffe cup and beans" src="/images/cup-beans.jpeg">
 
 ## About
-
 Coffee Review was founded in 1997 by Kenneth Davids and Ron Walters with the goal of providing the first-ever wine-style coffee reviews. The site boasts as much as one million readers per year. Reviews aim to provide consumers with useful information ot identify superior quality coffee while driving increased demand for farmers and roasters who are meticulous and passionate about the craft of coffee production.
 
 ## Review Methods
@@ -42,19 +41,19 @@ Rating	 Interpretation
 
 The higher end of our rating system currently calibrates roughly as follows:
 
-97+ = Means: “We have not tasted a coffee of this style as splendid as this one for a long, long time”
+97+ =  We have not tasted a coffee of this style as splendid as this one for a long, long time.
 
-95-96 = Perfect in structure, flawless, and shockingly distinctive and beautiful
+95-96 = Perfect in structure, flawless, and shockingly distinctive and beautiful.
 
-93-94 = Exceptional originality, beauty, individuality and distinction, with no significant negative issues whatsoever
+93-94 = Exceptional originality, beauty, individuality and distinction, with no significant negative issues whatsoever.
 
-91-92 = An very good to outstanding coffee with excitement and distinction in aroma and flavor – or an exceptional coffee that still perhaps has some issue that some consumers may object to but others will love – a big, slightly imbalanced acidity, for example, or an overly lush fruit
+91-92 = An very good to outstanding coffee with excitement and distinction in aroma and flavor – or an exceptional coffee that still perhaps has some issue that some consumers may object to but others will love – a big, slightly imbalanced acidity, for example, or an overly lush fruit.
 
-89-90 = A very good coffee, drinkable, with considerable distinction and interest
+89-90 = A very good coffee, drinkable, with considerable distinction and interest.
 
-87-88 = An interesting coffee but either 1) distinctive yet mildly flawed, or 2) solid but not exciting
+87-88 = An interesting coffee but either 1) distinctive yet mildly flawed, or 2) solid but not exciting.
 
-85/86 = An acceptable, solid coffee, but nothing exceptional — the best high-end supermarket whole bean, for example
+85/86 = An acceptable, solid coffee, but nothing exceptional — the best high-end supermarket whole bean.
 
  
 
