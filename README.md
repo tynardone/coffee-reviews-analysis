@@ -1,3 +1,4 @@
+<img title="coffee-beans" alt="Coffe cup and beans" src="/images/cup-beans.jpeg">
 ## About
 
 Coffee Review was founded in 1997 by Kenneth Davids and Ron Walters with the goal of providing the first-ever wine-style coffee reviews. The site boasts as much as one million readers per year. Reviews aim to provide consumers with useful information ot identify superior quality coffee while driving increased demand for farmers and roasters who are meticulous and passionate about the craft of coffee production.
