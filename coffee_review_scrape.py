@@ -76,7 +76,7 @@ def scrape_roast_list(session: requests.Session) -> list[dict]:
     data = []
 
     # Loop through all pages and scrape data
-    for i in tqdm(range(0, 121)):
+    for i in tqdm(range(0, 121), position=0, leave=True, desc="Scraping Review List: "):
         page_data = scrape_page(i)
         data.extend(page_data)
     return data
@@ -149,9 +149,11 @@ if __name__ == "__main__":
         max_count = len(urls)
         roast_data = []
 
-        for url in tqdm(urls):
-            roast = scrape_roast_page(url, session)
-            roast_data.append(roast)
+        with tqdm(total=len(urls), position=0, leave=True, desc="Scraping Roast Data: ") as pbar:
+            for url in urls:
+                roast = scrape_roast_page(url, session)
+                roast_data.append(roast)
+                pbar.update()
 
     df2 = pd.DataFrame(roast_data)
     df = df1.merge(df2, left_on="Complete_Review_URL", right_on="url")
