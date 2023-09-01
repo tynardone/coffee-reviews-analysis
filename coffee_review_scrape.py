@@ -4,14 +4,10 @@ import pandas as pd
 from tqdm import tqdm
 
 # TODO: These Functions are doing tooo much!!!!
-
-
 def scrape_roast_list(session: requests.Session) -> list[dict]:
 
     def scrape_page(page_number: int) -> list[dict]:
         page_data = []
-
-        # This header is required.
         headers = {'user-agent':
                    'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)'
                    'AppleWebKit/537.36 (KHTML, like Gecko) Chrome/'
@@ -48,9 +44,9 @@ def scrape_roast_list(session: requests.Session) -> list[dict]:
             # Extract the URL for complete review   - TODO
             row_3 = result.find('div', class_='row row-3').find_all('div')
             try:
-                complete_review_url = row_3[0].a['href']
+                roast_url = row_3[0].a['href']
             except:
-                complete_review_url = None
+                roast_url = None
 
             # Extract the URL for the roaster's website
             try:
@@ -64,7 +60,7 @@ def scrape_roast_list(session: requests.Session) -> list[dict]:
                 'Coffee_Name': name,
                 'Review_Date': review_date,
                 'Review_Description': description,
-                'Complete_Review_URL': complete_review_url,
+                'Complete_Review_URL': roast_url,
                 'Roaster_Website_URL': roaster_website_url
                 }
 
@@ -138,7 +134,8 @@ def scrape_roast_page(url: str, session: requests.Session) -> dict:
     data['url'] = url
     return data
 
-
+def main():
+    pass
 if __name__ == "__main__":
     with requests.Session() as session:
         data = scrape_roast_list(session=session)
