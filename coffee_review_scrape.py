@@ -98,14 +98,6 @@ def scrape_roast_page(url: str, session: requests.Session) -> dict:
     soup = BeautifulSoup(response.text, 'html.parser')
 
     def scrape_feature(feature):
-        """Scrape a single feature from the review page.
-
-        Args:
-            feature (str): The feature to scrape.
-
-        Returns:
-            str: The scraped data.
-        """
         if soup.find('td', string=feature + ':'):
             data = (soup.find('td', string=feature + ':')
                         .find_next_sibling().text)
