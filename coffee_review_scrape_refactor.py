@@ -10,10 +10,8 @@ FEATURE_LIST = ['Roaster Location', 'Coffee Origin', 'Roast Level', 'Aroma', 'Ac
                 'Acidity', 'Body','Flavor', 'Aftertaste', 'Agtron', 'Blind Assessment', 'Notes',
                 'Bottom Line', 'Est. Price']
 
-headers = {'User-Agent': USER_AGENT}
-    
-def fetch_html(session: Session, url: str, headers: dict) -> str:
-    response = session.get(url, headers=headers)
+def fetch_html(session: Session, url: str) -> str:
+    response = session.get(url)
     if response.status_code == 200:
         return response.text
     else:
@@ -44,22 +42,23 @@ def scrape_roast_page(html: str, feature_list: list) -> dict:
 def main():
     urls = [BASE_URL + '{}/'.format(page_number) for page_number in range(1, TOTAL_PAGES)]
     roast_urls = []
-    roast_data = []             
+    roast_data = []
     with Session() as session: 
-        total = len(urls)
-        with tqmd(total=total) as pbar:
+        session.headers.update({'User-Agent': USER_AGENT})
+        with tqdm(total=len(urls), position=0, desc='Scraping Review List: ') as pbar:
             for url in urls:
-                html = fetch_html(session, url, headers=headers)
-                urls = scrape_list_page(html) 
-                roast_urls.extend(urls)
+                html = fetch_html(session, url)
+                hrefs = scrape_list_page(html) 
+                roast_urls.extend(hrefs)
                 pbar.update()
-                
-        with tqmd(total=total) as pbar:
+        with tqdm(total=len(roast_urls), desc='Scraping roast reviews: ') as pbar:
             for url in roast_urls:
-                html = fetch_html(session, url, headers=headers)
+                html = fetch_html(session, url)
                 data = scrape_roast_page(html, feature_list=FEATURE_LIST)
                 roast_data.append(data)
                 pbar.update()
-            
+    
+    df = pd.DataFrame(roast_data)
+    df.to_csv('raw-roast-reviews.csv')
 if __name__ == '__main__':
     main()
