@@ -9,9 +9,7 @@ TOTAL_PAGES = 367
 
 headers = {'User-Agent': USER_AGENT}
 
-def fetch_list_page(session: Session, page_number: int, headers: dict) -> str:
-    url = BASE_URL + '{}/'.format(page_number)
-    print(url)
+def fetch_list_page(session: Session, url: str, headers: dict) -> str:
     response = session.get(url, headers=headers)
     if response.status_code == 200:
         print(response.url)
@@ -19,12 +17,11 @@ def fetch_list_page(session: Session, page_number: int, headers: dict) -> str:
     else:
         print('Request failed with status code {}'.format(response.status_code))
 
-def scrape_list_page(html):
+def scrape_list_page(html) -> list[str]:
     soup = BeautifulSoup(html, 'html.parser')
     results = soup.find_all('h2', class_='review-title')
-    for result in results:
-        out = [result.a.get('href') for result in results]
-    return out
+    hrefs = [result.a.get('href') for result in results]
+    return hrefs
     
 def fetch_roast_page(session, url):
     return
@@ -33,10 +30,13 @@ def scrape_roast_page(session, url):
     return
 
 def main():
+    urls = [BASE_URL + '{}/'.format(page_number) for page_number in range(1, TOTAL_PAGES)]
     with Session() as session: 
-        html = fetch_list_page(session, 2, headers=headers)
-        out = scrape_list_page(html)
-        print(out)
+        roast_urls = []
+        for url in urls:
+            html = fetch_list_page(session, url, headers=headers)
+            urls = scrape_list_page(html) 
+            roast_urls.extend(urls)
       
 
 
