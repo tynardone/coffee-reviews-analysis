@@ -62,4 +62,3 @@ def main():
     df.to_csv('raw-roast-reviews.csv')
 if __name__ == '__main__':
     main()
-]
