@@ -19,19 +19,17 @@ async def scrape_review_list(session: AsyncHTMLSession, url: str):
         await asyncio.sleep(1)  # You can adjust the delay time (in seconds) as needed
         return await scrape_review_list(session, url)
     else:
-        return r.status_code
+        return links
     
 async def main(urls):
     session = AsyncHTMLSession()
     tasks = [scrape_review_list(session, url) for url in urls]
     return await asyncio.gather(*tasks)
-        
-        
+           
 if __name__ == '__main__':
    links = []
    urls = [BASE_URL + '{}/'.format(page_number) for page_number in range(1, TOTAL_PAGES)]
    results = asyncio.run(main(urls))
-   print(results)
    print(len(results))
-   #flat_list = [item for sublist in results for item in sublist]
-   #print(len(flat_list))
+   flat_list = [item for sublist in results for item in sublist]
+   print(len(flat_list))
