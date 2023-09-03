@@ -1,7 +1,8 @@
 from requests_html import AsyncHTMLSession
+from tqdm import tqdm
 import asyncio
 import pickle
-from tqdm import tqdm
+
 
 BASE_URL = 'https://www.coffeereview.com/review/page/'
 USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
@@ -29,7 +30,7 @@ async def main(urls, pbar):
 if __name__ == '__main__':
    links = []
    urls = [BASE_URL + '{}/'.format(page_number) for page_number in range(1, TOTAL_PAGES)]
-   pbar = tqdm(total=len(urls))
+   pbar = tqdm(total=len(urls), desc="Scraping roast urls...")
    results = asyncio.run(main(urls, pbar))
    pbar.close()
    flat_list = [item for sublist in results for item in sublist]
