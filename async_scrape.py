@@ -16,7 +16,7 @@ async def scrape_review_list(session: AsyncHTMLSession, url: str):
     links = r.html.links
     links = [l for l in links if '/review/' in l and '/page/' not in l]
     if r.status_code == 429 or r.status_code == 504:
-        await asyncio.sleep(1)  # You can adjust the delay time (in seconds) as needed
+        await asyncio.sleep(3)  # You can adjust the delay time (in seconds) as needed
         return await scrape_review_list(session, url)
     else:
         return links
