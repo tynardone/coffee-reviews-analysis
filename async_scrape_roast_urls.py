@@ -30,7 +30,7 @@ async def main(urls, pbar):
 if __name__ == '__main__':
    links = []
    urls = [BASE_URL + '{}/'.format(page_number) for page_number in range(1, TOTAL_PAGES)]
-   pbar = tqdm(total=len(urls), desc="Scraping roast urls...")
+   pbar = tqdm(total=len(urls), desc="Scraping roast urls")
    results = asyncio.run(main(urls, pbar))
    pbar.close()
    flat_list = [item for sublist in results for item in sublist]
