@@ -1,17 +1,15 @@
 from requests_html import AsyncHTMLSession
 from tqdm import tqdm
 import asyncio
+import aiohttp
 import pickle
 
 
 BASE_URL = 'https://www.coffeereview.com/review/page/'
 USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
-FEATURE_LIST = ['Roaster Location', 'Coffee Origin', 'Roast Level', 'Aroma', 'Acidity/Structure',
-                'Acidity', 'Body','Flavor', 'Aftertaste', 'Agtron', 'Blind Assessment', 'Notes',
-                'Bottom Line', 'Est. Price']
 TOTAL_PAGES = 367
 
-async def scrape_review_list(session: AsyncHTMLSession, url: str, pbar:tqdm):
+async def scrape_review_list(session: AsyncHTMLSession, url: str, pbar:tqdm) -> list[str]:
     r = await session.get(url)
     links = r.html.links
     links = [l for l in links if '/review/' in l and '/page/' not in l]
@@ -22,7 +20,7 @@ async def scrape_review_list(session: AsyncHTMLSession, url: str, pbar:tqdm):
         pbar.update()
         return links
     
-async def main(urls, pbar):
+async def main(urls: list[str], pbar: tqdm):
     session = AsyncHTMLSession()
     tasks = [scrape_review_list(session, url, pbar) for url in urls]
     return await asyncio.gather(*tasks)
