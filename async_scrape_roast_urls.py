@@ -10,6 +10,7 @@ USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
 TOTAL_PAGES = 367
 
 async def scrape_review_list(session: AsyncHTMLSession, url: str, pbar:tqdm) -> list[str]:
+    # Gets urls for all individual roast reviews from a single review list page
     r = await session.get(url)
     links = r.html.links
     links = [l for l in links if '/review/' in l and '/page/' not in l]
@@ -27,8 +28,10 @@ async def main(urls: list[str], pbar: tqdm):
            
 if __name__ == '__main__':
    links = []
+   # List of all urls for the roast review list pages
    urls = [BASE_URL + '{}/'.format(page_number) for page_number in range(1, TOTAL_PAGES)]
    pbar = tqdm(total=len(urls), desc="Scraping roast urls")
+   # Results is a list of lists
    results = asyncio.run(main(urls, pbar))
    pbar.close()
    flat_list = [item for sublist in results for item in sublist]

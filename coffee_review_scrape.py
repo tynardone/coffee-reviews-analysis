@@ -135,7 +135,7 @@ if __name__ == "__main__":
         df1 = pd.DataFrame(data)
         urls = list(df1['Complete_Review_URL'])
 
-        max_count = len(urls)
+        
         roast_data = []
 
         with tqdm(total=len(urls), position=0, leave=True, desc="Scraping Roast Data: ") as pbar:
