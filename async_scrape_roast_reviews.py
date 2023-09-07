@@ -22,6 +22,17 @@ def scrape_feature(feature: str, soup: BeautifulSoup) -> str:
     else:
         data = None
     return data
+
+def scrape_rating(soup):
+    return scrape
+def scrape_roaster(soup):
+    return roaster 
+def scrape_name(soup):
+    return name
+def scrape_date(soup):
+    return date
+def scrape_description(soup):
+    return descripton
     
 async def scrape_roast_review(session: AsyncHTMLSession, url: str, pbar:tqdm) -> dict:
 
@@ -63,5 +74,4 @@ if __name__ == '__main__':
     
        
    
-   # MISSING
-   # rating, roaster, roaster_name, roast_name, review_date, description
+ 
