@@ -24,7 +24,7 @@ def scrape_feature(feature: str, soup: BeautifulSoup) -> str:
     return data
 
 def scrape_rating(soup):
-    return scrape
+    return rating
 def scrape_roaster(soup):
     return roaster 
 def scrape_name(soup):
