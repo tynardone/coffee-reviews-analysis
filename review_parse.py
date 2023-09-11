@@ -4,7 +4,7 @@ from rich import print
 def parse_html(html: str) -> dict:
     # Takes one BeautifulSoup object of a roast review page and returns a dict
     # of scraped data. 
-    soup = BeautifulSoup(html, 'lxml').main
+    soup = BeautifulSoup(html, 'lxml')
     data = {}
     
     def parse_tables(soup: BeautifulSoup):
@@ -23,9 +23,9 @@ def parse_html(html: str) -> dict:
         return table_data
     
     def extract_or_none(soup, class_:str) -> str:
-        if soup.find(class_=class_).text:
+        try:
             return soup.find(class_=class_).text
-        else:
+        except:
             return None
 
     data.update(parse_tables(soup))
@@ -36,6 +36,7 @@ def parse_html(html: str) -> dict:
     return data
 
 if __name__ == '__main__':
-    with open('main.html', 'r') as f:
+    with open('main2.html', 'r') as f:
         main = f.read()
+        print(main)
     print(parse_html(main))
