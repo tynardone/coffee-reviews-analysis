@@ -1,11 +1,9 @@
 from requests_html import AsyncHTMLSession
-import httpx
 import asyncio
-from bs4 import BeautifulSoup
 import pickle
 import pandas as pd
 from tqdm import tqdm
-from dataclasses import dataclass
+from review_parse import parse_html
 from time import perf_counter
 
 USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
@@ -13,27 +11,6 @@ FEATURE_LIST = ['Roaster Location', 'Coffee Origin', 'Roast Level', 'Aroma', 'Ac
                 'Acidity', 'Body','Flavor', 'Aftertaste', 'Agtron', 'Blind Assessment', 'Notes',
                 'Bottom Line', 'Est. Price']
 
-def scrape_feature(feature: str, soup: BeautifulSoup) -> str:
-    if soup.find('td', string=feature + ':'):
-        data = (soup.find('td', string=feature + ':')
-                    .find_next_sibling().text)
-    elif soup.find('h2', string=feature):
-        data = soup.find('h2', string=feature).find_next_sibling().text
-    else:
-        data = None
-    return data
-
-def scrape_rating(soup):
-    return rating
-def scrape_roaster(soup):
-    return roaster 
-def scrape_name(soup):
-    return name
-def scrape_date(soup):
-    return date
-def scrape_description(soup):
-    return descripton
-    
 async def scrape_roast_review(session: AsyncHTMLSession, url: str, pbar:tqdm) -> dict:
 
     r = await session.get(url)
@@ -42,11 +19,10 @@ async def scrape_roast_review(session: AsyncHTMLSession, url: str, pbar:tqdm) ->
         await asyncio.sleep(3)  # You can adjust the delay time (in seconds) as needed
         return await scrape_roast_review(session, url, pbar)
     else:
-        soup = BeautifulSoup(r.text, 'lxml')
-        roast_review = {feature: scrape_feature(feature, soup) for feature in FEATURE_LIST}
-        roast_review['url'] = url
+        data = parse_html(r.text)
+        data['url'] = url
         pbar.update()
-        return roast_review
+        return data
     
 async def main(urls: list[str], pbar: tqdm):
     session = AsyncHTMLSession()

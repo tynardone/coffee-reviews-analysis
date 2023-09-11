@@ -1,9 +1,10 @@
 from bs4 import BeautifulSoup
 from rich import print
 
-def scrape_data(soup:BeautifulSoup) -> dict:
+def parse_html(html: str) -> dict:
     # Takes one BeautifulSoup object of a roast review page and returns a dict
     # of scraped data. 
+    soup = BeautifulSoup(html, 'lxml').main
     data = {}
     
     def parse_tables(soup: BeautifulSoup):
@@ -37,5 +38,4 @@ def scrape_data(soup:BeautifulSoup) -> dict:
 if __name__ == '__main__':
     with open('main.html', 'r') as f:
         main = f.read()
-    soup = BeautifulSoup(main, 'lxml')
-    print(scrape_data(soup=soup))
+    print(parse_html(main))
