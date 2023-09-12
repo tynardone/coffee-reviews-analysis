@@ -15,10 +15,7 @@ def parse_html(html: str) -> dict:
             for row in rows:
                 cols = row.find_all('td')
                 key = cols[0].text
-                if cols[1]:
-                    value = cols[1].text
-                else:
-                    value =None
+                value = cols[1].text
                 table_data[key] = value
         return table_data
     
