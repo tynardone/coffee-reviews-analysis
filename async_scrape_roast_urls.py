@@ -9,7 +9,17 @@ USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36
 TOTAL_PAGES = 367
 
 async def scrape_review_list(session: AsyncHTMLSession, url: str, pbar:tqdm) -> list[str]:
-    # Gets urls for all individual roast reviews from a single review list page
+    """
+    Scrapes urls for all individual roast reviews from a single review list page.
+
+    Args:
+        session (AsyncHTMLSession): The async HTML session to use for the request.
+        url (str): The URL of the review list page to scrape.
+        pbar (tqdm): The progress bar to update.
+
+    Returns:
+        list[str]: A list of URLs for all individual roast reviews found on the page.
+    """
     r = await session.get(url)
     links = r.html.links
     links = [l for l in links if '/review/' in l and '/page/' not in l]
