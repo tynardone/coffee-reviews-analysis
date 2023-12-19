@@ -1,3 +1,11 @@
+"""
+ASYNC ROAST REVIEW SCRAPER
+
+This script loads a list of roast review URLs from data/roast-urls.pkl and scrapes the
+review data from each page. The data is saved to data/raw-roast-reviews.json
+for further processing.
+"""
+
 from requests_html import AsyncHTMLSession
 import asyncio
 import pickle
@@ -19,7 +27,7 @@ async def scrape_roast_review(session: AsyncHTMLSession, url: str, pbar:tqdm) ->
     r = await session.get(url)
     
     if r.status_code == 429 or r.status_code == 504:
-        await asyncio.sleep(3)  # You can adjust the delay time (in seconds) as needed
+        await asyncio.sleep(3)  # Adjust the delay time (in seconds) as needed
         return await scrape_roast_review(session, url, pbar)
     else:
         data = parse_html(r.text)
