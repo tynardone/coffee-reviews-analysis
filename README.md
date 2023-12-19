@@ -64,3 +64,7 @@ The higher end of our rating system currently calibrates roughly as follows:
  
 
 
+NOTES TODO:
+Separating price cleaning and analysis from the rest of the data cleaning and analysis. 
+Will keep all samples that have all quality variables for analyzing the relationships of those 
+variable. When analyzing price then will remove all reviews that do not have price data. 
