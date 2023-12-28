@@ -15,6 +15,12 @@ def main():
     csv_filename = filename[:-4] + 'csv'
     csv_path = Path(csv_filename)
     df = pd.read_json(path)
+    df.columns = (df
+                  .columns.str.lower()
+                  .str.replace(' ', '_')
+                  .str.replace(':', '')
+                  .str.replace('.', '')
+    )
     df.to_csv(csv_path, index=False)
 
 if __name__ == "__main__":
