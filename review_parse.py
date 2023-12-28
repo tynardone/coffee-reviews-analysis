@@ -25,11 +25,20 @@ def parse_html(html: str) -> dict:
         except:
             return None
 
+    def extract_h2(soup, h2_text: str) -> str:
+        try:
+            return soup.find('h2', text=h2_text).find_next('p').text
+        except:
+            return None
+        
     data.update(parse_tables(soup))
     data['rating'] = extract_class(soup, class_='review-template-rating')
     data['roaster'] = extract_class(soup, class_='review-roaster')
     data['name'] = extract_class(soup, class_='review-title')
-
+    data['blind_assessment'] = extract_h2(soup, 'Blind Assessment')
+    data['notes'] = extract_h2(soup, 'Notes')
+    data['bottom_line'] = extract_h2(soup, 'Bottom Line')
+    
     return data
 
 if __name__ == '__main__':
