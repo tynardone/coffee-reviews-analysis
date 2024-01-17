@@ -63,6 +63,7 @@ The higher end of our rating system currently calibrates roughly as follows:
 
  
 # OpenRefine
+https://openrefine.org/
 "OpenRefine is a powerful free, open source tool for working with messy data: cleaning it; transforming it from one format into another; and extending it with web services and external data."
 This was used as a tool to clean the roaster name, roaster location, and coffee origin fields. These were very messy with many different ways of writing the same thing. For example, <<<<the roaster name "Counter Culture Coffee" was written in 10 different>>>> ways. OpenRefine provides a way to clean these fields more efficiently than doing it manually, by using facets to quickly filter data in multiple ways and using the built in clustering feature to run multiple clustering algorithms to find similar values. It also provides a way to reconcile data with other data sources. For example, the roaster location field was reconciled with Wikibase to confirm and standardize location names and to add latitude and longitude coordinates.
 
