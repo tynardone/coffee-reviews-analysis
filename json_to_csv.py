@@ -12,8 +12,6 @@ def main():
     assert os.path.exists(path), "File not found."
     assert filename.endswith('.json'), "File must be a json file."
     
-    csv_filename = filename[:-4] + 'csv'
-    csv_path = Path(csv_filename)
     df = pd.read_json(path)
     df.columns = (df
                   .columns.str.lower()
@@ -21,6 +19,9 @@ def main():
                   .str.replace(':', '')
                   .str.replace('.', '')
     )
+    
+    csv_filename = filename[:-4] + 'csv'
+    csv_path = Path(csv_filename)
     df.to_csv(csv_path, index=False)
 
 if __name__ == "__main__":
