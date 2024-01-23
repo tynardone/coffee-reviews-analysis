@@ -56,12 +56,6 @@ The higher end of our rating system currently calibrates roughly as follows:
 85/86 = An acceptable, solid coffee, but nothing exceptional — the best high-end supermarket whole bean.
 
  
-
- 
-
- 
-
- 
 # OpenRefine
 https://openrefine.org/
 "OpenRefine is a powerful free, open source tool for working with messy data: cleaning it; transforming it from one format into another; and extending it with web services and external data."
@@ -71,3 +65,17 @@ NOTES TODO:
 Separating price cleaning and analysis from the rest of the data cleaning and analysis. 
 Will keep all samples that have all quality variables for analyzing the relationships of those 
 variable. When analyzing price then will remove all reviews that do not have price data. 
+
+
+# NLP
+https://towardsdatascience.com/nlp-gaining-insights-from-text-reviews-94ef955c58c0
+https://www.analyticsvidhya.com/blog/2021/07/feature-extraction-and-embeddings-in-nlp-a-beginners-guide-to-understand-natural-language-processing/
+https://www.geeksforgeeks.org/feature-extraction-techniques-nlp/
+https://towardsdatascience.com/understanding-tf-idf-a-traditional-approach-to-feature-extraction-in-nlp-a5bfbe04723f
+https://medium.com/analytics-vidhya/automated-keyword-extraction-from-articles-using-nlp-bfd864f41b34
+https://kavita-ganesan.com/python-keyword-extraction/#.XpRvAVNKi8U
+https://www.nltk.org/book/
+https://towardsdatascience.com/a-friendly-introduction-to-text-clustering-fa996bcefd04
+https://medium.com/artefact-engineering-and-data-science/customer-reviews-use-nlp-to-gain-insights-from-your-data-4629519b518e
+https://www.artefact.com/blog/using-nlp-to-extract-quick-and-valuable-insights-from-your-customers-reviews/
+https://towardsdatascience.com/customer-reviews-analysis-using-nlp-the-netflix-use-case-92b3645770e1
