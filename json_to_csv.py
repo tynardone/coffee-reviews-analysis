@@ -1,28 +1,44 @@
 import pandas as pd
-import sys
+import argparse
 from pathlib import Path
-import os
-import json
-from rich import print
+from rich.console import Console
+from rich.progress import Progress
 
 def main():
-    # read in argument
-    filename = sys.argv[1]
-    path = Path(filename)
-    assert os.path.exists(path), "File not found."
-    assert filename.endswith('.json'), "File must be a json file."
-    
-    df = pd.read_json(path)
-    df.columns = (df
-                  .columns.str.lower()
-                  .str.replace(' ', '_')
-                  .str.replace(':', '')
-                  .str.replace('.', '')
+    # Argument parsing
+    parser = argparse.ArgumentParser(description="Convert JSON to CSV")
+    parser.add_argument("filename", type=str, help="Path to the JSON file")
+    args = parser.parse_args()
+
+    # File existence check
+    file_path = Path(args.filename)
+    assert file_path.exists(), f"Error: File not found at {file_path}"
+
+    # File extension check
+    assert file_path.suffix.lower() == '.json', "Error: File must be a JSON file."
+
+    # Read JSON file to DataFrame
+    df = pd.read_json(file_path)
+
+    # Clean column names
+    df.columns = (
+        df.columns.str.lower()
+        .str.replace(' ', '_')
+        .str.replace(':', '')
+        .str.replace('.', '')
     )
+
+    # Save DataFrame to CSV
+    csv_filename = file_path.stem + '.csv'
+    csv_path = file_path.with_name(csv_filename)
     
-    csv_filename = filename[:-4] + 'csv'
-    csv_path = Path(csv_filename)
-    df.to_csv(csv_path, index=False)
+    with Progress() as progress:
+        task = progress.add_task("[cyan]Converting to CSV...", total=1)
+        df.to_csv(csv_path, index=False)
+        progress.update(task, advance=1)
+
+    console = Console()
+    console.print(f"[green]Conversion successful. CSV saved at: {csv_path}")
 
 if __name__ == "__main__":
     main()
