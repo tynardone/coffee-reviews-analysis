@@ -1,3 +1,6 @@
+"""Fetches historical exchange rates from the Open Exchange Rates API
+and saves them in a data/exchange_rates.json"""
+
 import json
 
 import requests
