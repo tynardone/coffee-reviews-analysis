@@ -3,6 +3,22 @@
 ## About
 Coffee Review was founded in 1997 by Kenneth Davids and Ron Walters with the goal of providing the first-ever wine-style coffee reviews. The site boasts as much as one million readers per year. Reviews aim to provide consumers with useful information ot identify superior quality coffee while driving increased demand for farmers and roasters who are meticulous and passionate about the craft of coffee production.
 
+
+
+CoffeeReview.com is a prominent platform dedicated to the comprehensive evaluation and analysis of coffee beans from around the world. Founded by Kenneth Davids, an influential figure in the specialty coffee industry, the website offers an extensive database of reviews and ratings, serving as a trusted resource for coffee enthusiasts, industry professionals, and consumers seeking high-quality coffee experiences.
+
+At the core of CoffeeReview.com are its detailed coffee reviews, meticulously crafted by experienced tasters and experts. These reviews delve into various aspects of each coffee, including aroma, flavor profile, acidity, body, aftertaste, and overall quality. Each review is accompanied by a numerical rating, providing a quantitative measure of the coffee's excellence.
+
+The website covers a diverse range of coffee origins, from renowned coffee-growing regions such as Ethiopia, Colombia, Kenya, and Guatemala to emerging coffee-producing countries. This breadth allows users to explore the unique characteristics and flavor profiles associated with different terroirs, processing methods, and varietals.
+
+CoffeeReview.com also highlights the work of coffee roasters and brands, showcasing their commitment to quality and innovation. Through its reviews, the website helps consumers discover new and noteworthy coffees while supporting roasters who uphold rigorous standards of excellence.
+
+In addition to reviews, CoffeeReview.com may feature educational content, industry news, and articles authored by coffee experts. These resources serve to enhance users' understanding of coffee cultivation, processing, brewing techniques, and industry developments.
+
+Overall, CoffeeReview.com plays a pivotal role in fostering appreciation for specialty coffee and facilitating informed decision-making within the coffee community. Whether seeking recommendations for exceptional coffees or deepening one's knowledge of the coffee world, users can rely on CoffeeReview.com as a comprehensive and authoritative source of information and insight.
+
+
+
 ## Review Methods
 
 Reviews are produced from blind, expert cuppings of coffees 100-point reviews.
