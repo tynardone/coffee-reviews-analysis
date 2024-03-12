@@ -10,10 +10,11 @@ def load_api_id():
     with open('credentials.json', 'r', encoding='utf-8') as f:
         credentials = json.load(f)
     return credentials['openexchangerates']['api_id']
-        
+
 
 def fetch_exchange_rates():
-    """Fetches historical exchange rates from the Open Exchange Rates API and saves them in a JSON file."""
+    """Fetches historical exchange rates from the Open Exchange Rates API
+    and saves them in a JSON file."""
     base_url = 'https://openexchangerates.org/api/historical/'
 
     headers = {"accept": "application/json"}
@@ -23,18 +24,23 @@ def fetch_exchange_rates():
         dates = pd.read_csv(f)
 
     dates = (dates
-             .assign(review_date = pd.to_datetime(dates.review_date))
-            .query('review_date >= "1999-01-01"')
-    )
+             .assign(review_date=pd.to_datetime(dates.review_date))
+             .query('review_date >= "1999-01-01"')
+             )
 
     exchange_rates = {}
     for date in tqdm(dates.review_date.dt.date):
         url = base_url + str(date) + '.json'
-        response = requests.get(url, headers=headers, params=params, timeout=10)
+        response = requests.get(
+            url,
+            headers=headers,
+            params=params,
+            timeout=10)
         exchange_rates[str(date)] = response.json()['rates']
 
     with open('data/exchange_rates.json', 'w', encoding='utf-8') as f:
         json.dump(exchange_rates, f)
+
 
 if __name__ == "__main__":
     fetch_exchange_rates()
