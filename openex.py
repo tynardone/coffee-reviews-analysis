@@ -1,6 +1,9 @@
 """Fetches historical exchange rates from the Open Exchange Rates API
 and saves them in a data/exchange_rates.json"""
 
+# TODO: Break up fetch_exchange_rates() into smaller functions
+# TODO: Replace tqdm with a progress bar from rich.progress
+
 import json
 
 import requests
