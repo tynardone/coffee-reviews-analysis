@@ -39,7 +39,7 @@ def main():
     assert file_path.exists(), f"Error: File not found at {file_path}"
 
     # File extension check
-    assert file_path.suffix.lower() == '.json',(
+    assert file_path.suffix.lower() == '.json', (
         "Error: File must be a JSON file."
     )
 
