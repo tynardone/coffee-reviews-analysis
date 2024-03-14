@@ -44,7 +44,9 @@ def fetch_exchange_rates():
     with open('data/exchange_rates.json', 'w', encoding='utf-8') as f:
         json.dump(exchange_rates, f)
 
-
-if __name__ == "__main__":
+def main():
     fetch_exchange_rates()
     print("Exchange rates fetched and saved successfully.")
+ 
+if __name__ == "__main__":
+    main()
