@@ -1,6 +1,7 @@
 from bs4 import BeautifulSoup
 from rich import print
 
+
 def parse_html(html: str) -> dict:
     # Takes one BeautifulSoup object of a roast review page and returns a dict
     # of scraped data. 
@@ -18,19 +19,23 @@ def parse_html(html: str) -> dict:
                 value = cols[1].text
                 table_data[key] = value
         return table_data
-    
+
+
     def extract_class(soup, class_:str) -> str:
         try:
             return soup.find(class_=class_).text
-        except:
+        except Exception as e:
+            print(e)
             return None
+
 
     def extract_h2(soup, h2_text: str) -> str:
         try:
             return soup.find('h2', text=h2_text).find_next('p').text
-        except:
+        except Exception as e:
+            print(e)
             return None
-        
+
     data.update(parse_tables(soup))
     data['rating'] = extract_class(soup, class_='review-template-rating')
     data['roaster'] = extract_class(soup, class_='review-roaster')
@@ -38,11 +43,11 @@ def parse_html(html: str) -> dict:
     data['blind_assessment'] = extract_h2(soup, 'Blind Assessment')
     data['notes'] = extract_h2(soup, 'Notes')
     data['bottom_line'] = extract_h2(soup, 'Bottom Line')
-    
     return data
 
+
 if __name__ == '__main__':
-    with open('dev/main2.html', 'r') as f:
+    with open('dev/main2.html', 'r', encoding='utf-8') as f:
         main = f.read()
         print(main)
     print(parse_html(main))
