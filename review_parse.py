@@ -4,10 +4,10 @@ from rich import print
 
 def parse_html(html: str) -> dict:
     # Takes one BeautifulSoup object of a roast review page and returns a dict
-    # of scraped data. 
+    # of scraped data.
     soup = BeautifulSoup(html, 'lxml')
     data = {}
-    
+
     def parse_tables(soup: BeautifulSoup):
         table_data = {}
         tables = soup.find_all('table')
@@ -20,14 +20,12 @@ def parse_html(html: str) -> dict:
                 table_data[key] = value
         return table_data
 
-
-    def extract_class(soup, class_:str) -> str:
+    def extract_class(soup, class_: str) -> str:
         try:
             return soup.find(class_=class_).text
         except Exception as e:
             print(e)
             return None
-
 
     def extract_h2(soup, h2_text: str) -> str:
         try:
