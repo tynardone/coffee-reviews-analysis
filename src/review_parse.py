@@ -32,7 +32,7 @@ def safe_find_text(soup, selector, attribute=None, find_next_selector=None, **kw
         if find_next_selector:
             return element.find_next(find_next_selector).text.strip()
         return element.text.strip()
-  
+
     except AttributeError as e:
         logging.error(
            "Failed to find text for %s with attributes %s or error in %s: %s",
@@ -50,7 +50,7 @@ def parse_html(html: str) -> dict:
         'roaster': safe_find_text(soup, 'div', class_='review-roaster'),
         'name': safe_find_text(soup, 'h1', class_='review-title'),
         'blind_assessment': safe_find_text(soup, 'h2', text='Blind Assessment',
-                                           find_next_selector='p
+                                           find_next_selector='p'
                                            ),
         'notes': safe_find_text(soup, 'h2', text='Notes', find_next_selector='p'),
         'bottom_line': safe_find_text(soup, 'h2', text='Bottom Line', find_next_selector='p')
