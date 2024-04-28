@@ -31,13 +31,14 @@ def fetch_exchange_rates():
         for date in dates.review_date.dt.date:
             exchange_rates[str(date)] = fetch_rate_for_date(date, headers, params)
             progress.update(task, advance=1)
-
-    with open('data/exchange_rates.json', 'w', encoding='utf-8') as f:
-        json.dump(exchange_rates, f)
+            
+    return exchange_rates
 
 def main():
     """Fetch historical exchange rates and save them to a JSON file."""
-    fetch_exchange_rates()
+    exchange_rates = fetch_exchange_rates()
+    with open('data/exchange_rates.json', 'w', encoding='utf-8') as f:
+        json.dump(exchange_rates, f)
     print("Exchange rates fetched and saved successfully.")
 
 if __name__ == "__main__":

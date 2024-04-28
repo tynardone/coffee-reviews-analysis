@@ -1,5 +1,4 @@
-{
-    "currency_map": {
+currency_map ={
         "$": "USD",
         "$CAD": "CAD",
         "$NT": "TWD",
@@ -33,11 +32,12 @@
         "USD$": "USD",
         "£": "GBP",
         "¥": "JPY"
-    },
-    "grams_conversions": {
+        }
+
+
+grams_conversions = {
         "grams": 1,
         "kilograms": 1000,
         "ounces": 28.3495,
         "pounds": 453.592
     }
-}
