@@ -1,7 +1,6 @@
 from bs4 import BeautifulSoup
 from rich import print
 
-
 def parse_html(html: str) -> dict:
     # Takes one BeautifulSoup object of a roast review page and returns a dict
     # of scraped data.

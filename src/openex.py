@@ -5,11 +5,9 @@ and saves them in a data/exchange_rates.json"""
 # TODO: Replace tqdm with a progress bar from rich.progress
 
 import json
-
 import requests
 import pandas as pd
 from tqdm import tqdm
-
 
 def load_api_id():
     """Loads the Open Exchange Rates API ID from a JSON file."""
