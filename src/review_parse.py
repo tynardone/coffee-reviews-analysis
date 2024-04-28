@@ -50,7 +50,7 @@ def parse_html(html: str) -> dict:
         'roaster': safe_find_text(soup, 'div', class_='review-roaster'),
         'name': safe_find_text(soup, 'h1', class_='review-title'),
         'blind_assessment': safe_find_text(soup, 'h2', text='Blind Assessment',
-                                           find_next_selector='p
+                                           find_next_selector='p'
                                            ),
         'notes': safe_find_text(soup, 'h2', text='Notes', find_next_selector='p'),
         'bottom_line': safe_find_text(soup, 'h2', text='Bottom Line', find_next_selector='p')
