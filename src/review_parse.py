@@ -46,5 +46,4 @@ def parse_html(html: str) -> dict:
 if __name__ == '__main__':
     with open('dev/main2.html', 'r', encoding='utf-8') as f:
         main = f.read()
-        print(main)
     print(parse_html(main))
