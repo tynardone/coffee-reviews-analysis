@@ -58,8 +58,11 @@ def parse_html(html: str) -> dict:
     data.update(parse_tables(soup))
     return data
 
-if __name__ == '__main__':
+def main() -> None:
     with open('dev/main2.html', 'r', encoding='utf-8') as f:
         html_content = f.read()
     parsed_data = parse_html(html_content)
     print(parsed_data)
+
+if __name__ == '__main__':
+    main()
