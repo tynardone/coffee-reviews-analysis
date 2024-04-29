@@ -16,6 +16,7 @@ USER_AGENT = ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) '
               'AppleWebKit/537.36 (KHTML, like Gecko) '
               'Chrome/114.0.0.0')
 TOTAL_PAGES = 379
+DATA_OUTPUT = 'data/raw/roast-urls.pkl'
 
 
 async def scrape_review_list(session: AsyncHTMLSession, url: str, progress: tqdm) -> list[str]:
@@ -43,22 +44,25 @@ async def scrape_review_list(session: AsyncHTMLSession, url: str, progress: tqdm
     return filtered_links
 
 
-async def main(url_list: list[str], progress: tqdm):
+async def gather_tasks(url_list: list[str], progress: tqdm):
     session = AsyncHTMLSession()
     tasks = [scrape_review_list(session, url, progress) for url in url_list]
     return await asyncio.gather(*tasks)
 
-if __name__ == '__main__':
+def main():
+    """
+    Main function to scrape roast review urls.
+    """
     links = []
-    # List of all urls for the roast review list pages
-    urls = [BASE_URL +
-            f"{page_number}/" for page_number in range(1, TOTAL_PAGES)]
+    urls = [BASE_URL + f"{page_number}/" for page_number in range(1, TOTAL_PAGES)]
     pbar = tqdm(total=len(urls), desc="Scraping roast urls")
-    # Results is a list of lists
-    results = asyncio.run(main(urls, pbar))
+    results = asyncio.run(gather_tasks(urls, progress=pbar))
     pbar.close()
     flat_list = [item for sublist in results for item in sublist]
     print(f"Found {len(flat_list)} URLS")
-
-    with open('data/roast-urls.pkl', 'wb') as fout:
+    
+    with open(DATA_OUTPUT, 'wb') as fout:
         pickle.dump(flat_list, fout)
+
+if __name__ == '__main__':
+    main()
