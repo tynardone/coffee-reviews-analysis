@@ -6,9 +6,7 @@ from rich import print
 logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def parse_tables(soup: BeautifulSoup) -> dict:
-    """
-    Parse tables from the HTML content and return a dictionary of key-value pairs.
-    """
+    """Parse tables from the HTML content and return a dictionary of key-value pairs."""
     table_data = {}
     tables = soup.find_all('table')
     for table in tables:
@@ -22,9 +20,7 @@ def parse_tables(soup: BeautifulSoup) -> dict:
     return table_data
 
 def find_text(soup, selector, attribute=None, find_next_selector=None, **kwargs):
-    """ 
-    Find text in a BeautifulSoup object and return it.
-    """
+    """ Find text in a BeautifulSoup object and return it."""
     try:
         element = soup.find(selector, **kwargs)
         if attribute:
@@ -41,9 +37,7 @@ def find_text(soup, selector, attribute=None, find_next_selector=None, **kwargs)
         return None
 
 def parse_html(html: str) -> dict:
-    """ 
-    Parse HTML content and return a dictionary of key-value pairs.
-    """
+    """ Parse HTML content and return a dictionary of key-value pairs."""
     soup = BeautifulSoup(html, 'lxml')
     data = {
         'rating': find_text(soup, 'div', class_='review-template-rating'),
