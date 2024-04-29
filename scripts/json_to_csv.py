@@ -1,3 +1,6 @@
+"""This script is used to convert the JSON file from review scraper to a CSV file.
+Need to provide the path to the JSON file as the first argument."""
+
 import argparse
 import logging
 from pathlib import Path
