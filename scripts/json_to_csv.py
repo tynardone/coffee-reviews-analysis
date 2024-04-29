@@ -1,55 +1,57 @@
 import argparse
+import logging
 from pathlib import Path
 import pandas as pd
-from rich.console import Console
-from rich.progress import Progress
+
+# Set up logging
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 def parse_args():
     """Parse command-line arguments."""
     parser = argparse.ArgumentParser(description="Convert JSON to CSV")
     parser.add_argument("filename", type=str, help="Path to the JSON file")
+    parser.add_argument("-o", "--output", type=str, help="Output directory")
     return parser.parse_args()
 
 def clean_data(df: pd.DataFrame) -> pd.DataFrame:
-    """Clean column names."""
-    return (
-        df.columns.str.lower()
-        .str.replace(' ', '_')
-        .str.replace(':', '')
-        .str.replace('.', '')
-    )
+    """Clean column names by simplifying multiple operations into a chained call."""
+    df.columns = (df.columns.str.lower()
+                  .str.replace(' ', '_', regex=False)
+                  .str.replace(':', '', regex=False)
+                  .str.replace('.', '', regex=False))
+    return df
 
-def create_csv_filepath(json_filepath: Path) -> Path:
+def create_csv_filepath(json_filepath: Path, output_dir: Path) -> Path:
     """Create the output CSV filepath."""
-    return json_filepath.with_suffix('.csv')
+    csv_filepath = output_dir / json_filepath.with_suffix('.csv').name
+    output_dir.mkdir(parents=True, exist_ok=True)
+    return csv_filepath
+
+def validate_file(filepath: Path) -> bool:
+    """Check if the file exists and is a JSON file."""
+    if not filepath.exists() or filepath.suffix.lower() != '.json':
+        logging.error("Input file must be a valid JSON file.")
+        return False
+    return True
 
 def main():
     """Convert JSON to CSV."""
-    # Argument parsing
     args = parse_args()
 
-    # File existence check
-    file_path = Path(args.filename)
-    assert file_path.exists(), f"Error: File not found at {file_path}"
+    json_filepath = Path(args.filename)
+    output_dir = Path(args.output) if args.output else json_filepath.parent
 
-    # File extension check
-    assert file_path.suffix.lower() == '.json', (
-        "Error: File must be a JSON file."
-    )
+    if not validate_file(json_filepath):
+        return
 
-    # Read JSON file to DataFrame
-    df = pd.read_json(file_path)
-    df = clean_data(df)
+    try:
+        df = pd.read_json(json_filepath)
+        df = clean_data(df)
+        csv_filepath = create_csv_filepath(json_filepath, output_dir)
+        df.to_csv(csv_filepath, index=False)
+        logging.info("Conversion successful. CSV saved at: %s", csv_filepath)
+    except Exception as e:
+        logging.error("Error: %s", e)
 
-    # Save DataFrame to CSV
-    csv_path = create_csv_filepath(file_path)
-
-    with Progress() as progress:
-        task = progress.add_task("[cyan]Converting to CSV...", total=1)
-        df.to_csv(csv_path, index=False)  # Save DataFrame to CSV
-        progress.update(task, advance=1)
-    console = Console()
-    console.print(f"[green]Conversion successful. CSV saved at: {csv_path}")
- 
 if __name__ == "__main__":
     main()
