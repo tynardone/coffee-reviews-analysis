@@ -5,7 +5,7 @@ from rich import print
 # Setup basic configuration for logging
 logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')
 
-def _parse_tables(soup: BeautifulSoup) -> dict:
+def parse_tables(soup: BeautifulSoup) -> dict:
     """
     Parse tables from the HTML content and return a dictionary of key-value pairs.
     """
@@ -21,7 +21,7 @@ def _parse_tables(soup: BeautifulSoup) -> dict:
                 table_data[key] = value
     return table_data
 
-def _safe_find_text(soup, selector, attribute=None, find_next_selector=None, **kwargs):
+def find_text(soup, selector, attribute=None, find_next_selector=None, **kwargs):
     """ 
     Find text in a BeautifulSoup object and return it.
     """
@@ -46,16 +46,16 @@ def parse_html(html: str) -> dict:
     """
     soup = BeautifulSoup(html, 'lxml')
     data = {
-        'rating': _safe_find_text(soup, 'div', class_='review-template-rating'),
-        'roaster': _safe_find_text(soup, 'div', class_='review-roaster'),
-        'name': _safe_find_text(soup, 'h1', class_='review-title'),
-        'blind_assessment': _safe_find_text(soup, 'h2', text='Blind Assessment',
+        'rating': find_text(soup, 'div', class_='review-template-rating'),
+        'roaster': find_text(soup, 'div', class_='review-roaster'),
+        'name': find_text(soup, 'h1', class_='review-title'),
+        'blind_assessment': find_text(soup, 'h2', text='Blind Assessment',
                                            find_next_selector='p'
                                            ),
-        'notes': _safe_find_text(soup, 'h2', text='Notes', find_next_selector='p'),
-        'bottom_line': _safe_find_text(soup, 'h2', text='Bottom Line', find_next_selector='p')
+        'notes': find_text(soup, 'h2', text='Notes', find_next_selector='p'),
+        'bottom_line': find_text(soup, 'h2', text='Bottom Line', find_next_selector='p')
     }
-    data.update(_parse_tables(soup))
+    data.update(parse_tables(soup))
     return data
 
 if __name__ == '__main__':
