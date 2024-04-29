@@ -12,12 +12,15 @@ def parse_args():
 
 def clean_data(df: pd.DataFrame) -> pd.DataFrame:
     """Clean column names."""
-    return (
+    cleaned_columns = (
         df.columns.str.lower()
         .str.replace(' ', '_')
         .str.replace(':', '')
         .str.replace('.', '')
     )
+    # Set the modified column names back to the DataFrame
+    df.columns = cleaned_columns
+    return df
 
 def create_csv_filepath(json_filepath: Path) -> Path:
     """Create the output CSV filepath."""
@@ -50,6 +53,6 @@ def main():
         progress.update(task, advance=1)
     console = Console()
     console.print(f"[green]Conversion successful. CSV saved at: {csv_path}")
- 
+
 if __name__ == "__main__":
     main()
