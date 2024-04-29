@@ -17,7 +17,7 @@ def parse_args():
     return parser.parse_args()
 
 def clean_data(df: pd.DataFrame) -> pd.DataFrame:
-    """Clean column names by simplifying multiple operations into a chained call."""
+    """Clean column names."""
     df.columns = (df.columns.str.lower()
                   .str.replace(' ', '_', regex=False)
                   .str.replace(':', '', regex=False)
@@ -30,7 +30,7 @@ def create_csv_filepath(json_filepath: Path, output_dir: Path) -> Path:
     output_dir.mkdir(parents=True, exist_ok=True)
     return csv_filepath
 
-def validate_file(filepath: Path) -> bool:
+def validate_input_file(filepath: Path) -> bool:
     """Check if the file exists and is a JSON file."""
     if not filepath.exists() or filepath.suffix.lower() != '.json':
         logging.error("Input file must be a valid JSON file.")
@@ -38,13 +38,13 @@ def validate_file(filepath: Path) -> bool:
     return True
 
 def main():
-    """Convert JSON to CSV."""
+    """Runs script"""
     args = parse_args()
 
     json_filepath = Path(args.filename)
     output_dir = Path(args.output) if args.output else json_filepath.parent
 
-    if not validate_file(json_filepath):
+    if not validate_input_file(json_filepath):
         return
 
     try:
