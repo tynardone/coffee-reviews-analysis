@@ -12,7 +12,7 @@ from time import perf_counter
 
 from requests_html import AsyncHTMLSession
 from tqdm import tqdm
-from review_parse import parse_html
+from review_parse import parse_review_soup
 
 USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\
              (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
@@ -28,7 +28,7 @@ async def scrape_roast_review(session: AsyncHTMLSession, url: str, progress: tqd
     if r.status_code in (429, 504):
         await asyncio.sleep(3)  # Adjust the delay time (in seconds) as needed
         return await scrape_roast_review(session, url, progress)
-    data = parse_html(r.text)
+    data = parse_review_soup(r.text)
     data['url'] = url
     progress.update()
     return data
@@ -44,7 +44,7 @@ def main():
 
     start = perf_counter()
     progress_bar = tqdm(total=len(urls), desc="Scraping roast pages")
-    results = asyncio.run(gather_tasks(urls, progress=progress_bar))
+    results = asyncio.run(gather_tasks(urls, progress=progress_bar))qqq
     progress_bar.close()
     end = perf_counter()
 
