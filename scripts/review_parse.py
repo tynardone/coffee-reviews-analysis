@@ -56,6 +56,8 @@ def parse_review_soup(soup: BeautifulSoup) -> dict:
     return data
 
 def main() -> None:
+    """Main function to test the parsing functions.
+    """
     with open(test_html_path, 'r', encoding='utf-8') as f:
         html_content = f.read()
     soup = BeautifulSoup(html_content, 'html.parser')
