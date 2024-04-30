@@ -23,7 +23,7 @@ FEATURE_LIST = ['Roaster Location', 'Coffee Origin', 'Roast Level', 'Aroma',
 DATA_OUTPUT = 'data/raw/roast-urls.pkl/raw-roasts-reviews.json'
 
 async def scrape_roast_review(session: AsyncHTMLSession, url: str, progress: tqdm) -> dict:
-    
+
     r = await session.get(url)
     if r.status_code in (429, 504):
         await asyncio.sleep(3)  # Adjust the delay time (in seconds) as needed
@@ -32,7 +32,6 @@ async def scrape_roast_review(session: AsyncHTMLSession, url: str, progress: tqd
     data['url'] = url
     progress.update()
     return data
-
 
 async def main(urls: list[str], progress: tqdm):
     session = AsyncHTMLSession()
