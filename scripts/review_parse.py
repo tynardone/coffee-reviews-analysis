@@ -9,7 +9,7 @@ logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(levelname)s - %
 base_path = Path(__file__).parent.parent
 test_html_path = base_path / 'tests/test_review_parse.html'
 
-def parse_tables(soup: BeautifulSoup) -> dict:
+def parse_table_soup(soup: BeautifulSoup) -> dict:
     """Parse tables from the HTML content and return a dictionary of key-value pairs."""
     table_data = {}
     tables = soup.find_all('table')
@@ -40,7 +40,7 @@ def find_text(soup, selector, attribute=None, find_next_selector=None, **kwargs)
            )
         return None
 
-def parse_html(soup: BeautifulSoup) -> dict:
+def parse_review_soup(soup: BeautifulSoup) -> dict:
     """ Parse HTML content and return a dictionary of key-value pairs."""
     data = {
         'rating': find_text(soup, 'div', class_='review-template-rating'),
@@ -59,7 +59,7 @@ def main() -> None:
     with open(test_html_path, 'r', encoding='utf-8') as f:
         html_content = f.read()
     soup = BeautifulSoup(html_content, 'html.parser')
-    parsed_data = parse_html(soup)
+    parsed_data = parse_review_soup(soup)
     print(parsed_data)
 
 if __name__ == '__main__':
