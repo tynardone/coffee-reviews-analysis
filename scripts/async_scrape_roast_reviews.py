@@ -16,15 +16,14 @@ from review_parse import parse_html
 
 USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\
              (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
-
 FEATURE_LIST = ['Roaster Location', 'Coffee Origin', 'Roast Level', 'Aroma',
                 'Acidity/Structure', 'Acidity', 'Body', 'Flavor', 'Aftertaste',
                 'Agtron', 'Blind Assessment', 'Notes', 'Bottom Line',
                 'Est. Price']
-
+DATA_OUTPUT = 'data/raw/roast-urls.pkl/raw-roasts-reviews.json'
 
 async def scrape_roast_review(session: AsyncHTMLSession, url: str, progress: tqdm) -> dict:
-
+    
     r = await session.get(url)
     if r.status_code in (429, 504):
         await asyncio.sleep(3)  # Adjust the delay time (in seconds) as needed
@@ -53,5 +52,5 @@ if __name__ == '__main__':
     print(results)
     print(f"Ran in {end- start:0.4f} seconds")
 
-    with open('data/raw-roast-reviews.json', 'w', encoding="utf-8") as fout:
+    with open(DATA_OUTPUT, 'w', encoding="utf-8") as fout:
         json.dump(results, fout)
