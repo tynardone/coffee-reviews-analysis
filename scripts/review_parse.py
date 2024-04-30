@@ -1,9 +1,14 @@
 import logging
+from pathlib import Path
+import os
 from bs4 import BeautifulSoup
 from rich import print
 
 # Setup basic configuration for logging
 logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')
+
+base_path = Path(__file__).parent.parent
+test_html_path = base_path / 'tests/test_review_parse.html'
 
 def parse_tables(soup: BeautifulSoup) -> dict:
     """Parse tables from the HTML content and return a dictionary of key-value pairs."""
@@ -53,7 +58,7 @@ def parse_html(html: str) -> dict:
     return data
 
 def main() -> None:
-    with open('dev/main2.html', 'r', encoding='utf-8') as f:
+    with open(test_html_path, 'r', encoding='utf-8') as f:
         html_content = f.read()
     parsed_data = parse_html(html_content)
     print(parsed_data)
