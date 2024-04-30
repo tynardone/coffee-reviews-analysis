@@ -1,6 +1,5 @@
 import logging
 from pathlib import Path
-import os
 from bs4 import BeautifulSoup
 from rich import print
 
@@ -41,9 +40,8 @@ def find_text(soup, selector, attribute=None, find_next_selector=None, **kwargs)
            )
         return None
 
-def parse_html(html: str) -> dict:
+def parse_html(soup: BeautifulSoup) -> dict:
     """ Parse HTML content and return a dictionary of key-value pairs."""
-    soup = BeautifulSoup(html, 'lxml')
     data = {
         'rating': find_text(soup, 'div', class_='review-template-rating'),
         'roaster': find_text(soup, 'div', class_='review-roaster'),
@@ -60,7 +58,8 @@ def parse_html(html: str) -> dict:
 def main() -> None:
     with open(test_html_path, 'r', encoding='utf-8') as f:
         html_content = f.read()
-    parsed_data = parse_html(html_content)
+    soup = BeautifulSoup(html_content, 'html.parser')
+    parsed_data = parse_html(soup)
     print(parsed_data)
 
 if __name__ == '__main__':
