@@ -44,7 +44,7 @@ def main():
 
     start = perf_counter()
     progress_bar = tqdm(total=len(urls), desc="Scraping roast pages")
-    results = asyncio.run(gather_tasks(urls, progress=progress_bar))qqq
+    results = asyncio.run(gather_tasks(urls, progress=progress_bar))
     progress_bar.close()
     end = perf_counter()
 
