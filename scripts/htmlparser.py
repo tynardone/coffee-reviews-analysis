@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 # FUnction needs to be able to be imported into async_scrape_roast_reviews.py
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
 
 current_file = Path(__file__)
 root_dir = current_file.parent.parent

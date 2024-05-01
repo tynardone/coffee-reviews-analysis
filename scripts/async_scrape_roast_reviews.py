@@ -59,3 +59,6 @@ def main():
 
     with open('data/raw-roast-reviews.json', 'w', encoding="utf-8") as fout:
         json.dump(results, fout)
+        
+if __name__ == '__main__':
+    main()

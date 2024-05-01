@@ -18,7 +18,6 @@ USER_AGENT = ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) '
 TOTAL_PAGES = 379
 DATA_OUTPUT = 'data/raw/roast-urls.pkl'
 
-
 async def scrape_review_list(session: AsyncHTMLSession, url: str, progress: tqdm) -> list[str]:
     """
     Scrapes urls for all individual roast reviews from a single review list page.
