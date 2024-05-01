@@ -12,7 +12,14 @@ root_dir = current_file.parent.parent
 html_dir = root_dir / 'tests' / 'html'
 
 def _parse_tables(soup: BeautifulSoup) -> dict:
-    """Extracts data from all tables."""
+    """Extracts data from tables in the HTML.
+
+    Args:
+        soup (BeautifulSoup): BeautifulSoup object to parse
+
+    Returns:
+        dict: A dictionary containing data parsed from tables in the HTML.
+    """
     data = {}
     tables = soup.find_all('table')
     for table in tables:
@@ -23,14 +30,31 @@ def _parse_tables(soup: BeautifulSoup) -> dict:
     return data
 
 def _parse_class(soup: BeautifulSoup, element: str, class_: str) -> str:
-    """Extracts data from a specific class."""
+    """Extracts data based on element type and class.
+
+    Args:
+        soup (BeautifulSoup): BeautifulSoup object to parse
+        element (str): type of html element e.g. 'p', 'h1', 'h2'
+        class_ (str): class name of the element
+
+    Returns:
+        str: Data from given element and class.
+    """
     try:
         return soup.find(element, class_=class_).string.strip()
     except AttributeError:
         return None
 
 def _parse_string_next(soup: BeautifulSoup, find_element: str, next_element:str, string: str, ) -> str:
-    """Extracts data from a specific string."""
+    """Finds an element by type and string and returns text from the next element.
+    Args:
+        soup (BeautifulSoup): BeautifulSoup object to parse
+        find_element (str): Element that will contain string to search for
+        next_element (str): Element to extract text from
+        string (str): String in the first_element 
+    Returns:
+        str: Data from the element after the search element containing the search string
+    """
     try:
         return (soup
                 .find(find_element, string= re.compile(string))
@@ -41,7 +65,15 @@ def _parse_string_next(soup: BeautifulSoup, find_element: str, next_element:str,
         return None
 
 def parse_html(html: str) -> dict:
-    """ Parse HTML content and return a dictionary of key-value pairs."""
+    """Parses HTML from coffeereview.com review html and 
+    returns a dictionary of the parsed data.
+
+    Args:
+        html (str): HTML string scraped from coffeereview.com
+
+    Returns:
+        dict: A dictionary containing the parsed data.
+    """
     data = {}
     soup = BeautifulSoup(html, 'html.parser')
 
@@ -64,7 +96,6 @@ def parse_html(html: str) -> dict:
     data.update(table_data)
     
     return data
-
 
 if __name__ == '__main__':
     html_files = [file for file in html_dir.glob('*.html')]
