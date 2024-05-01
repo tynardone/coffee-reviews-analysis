@@ -9,10 +9,12 @@ import asyncio
 import pickle
 import json
 from time import perf_counter
-
+import logging
 from requests_html import AsyncHTMLSession
 from tqdm import tqdm
-from review_parse import parse_review_soup
+from bs4 import BeautifulSoup
+
+logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')
 
 USER_AGENT = 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36\
              (KHTML, like Gecko) Chrome/114.0.0.0 Safari/537.36'
@@ -20,27 +22,32 @@ FEATURE_LIST = ['Roaster Location', 'Coffee Origin', 'Roast Level', 'Aroma',
                 'Acidity/Structure', 'Acidity', 'Body', 'Flavor', 'Aftertaste',
                 'Agtron', 'Blind Assessment', 'Notes', 'Bottom Line',
                 'Est. Price']
-DATA_INPUT = 'data/raw/roast-urls.pkl'
-DATA_OUTPUT = 'data/raw/roast-urls.pkl/raw-roasts-reviews.json'
+DATA_INPUT = 'data/processed/roast-urls.pkl'
+DATA_OUTPUT = 'data/raw/raw-roasts-reviews-test.json'
 
-async def scrape_roast_review(session: AsyncHTMLSession, url: str, progress: tqdm) -> dict:
+async def fetch_roast_review(session: AsyncHTMLSession, url: str, progress: tqdm) -> dict:
+
     r = await session.get(url)
     if r.status_code in (429, 504):
         await asyncio.sleep(3)  # Adjust the delay time (in seconds) as needed
-        return await scrape_roast_review(session, url, progress)
-    data = parse_review_soup(r.text)
-    data['url'] = url
+        return await fetch_roast_review(session, url, progress)
+    try:
+        soup = BeautifulSoup(r.text, 'html.parser')
+        div_content = soup.find('div', class_='entry-content').prettify()
+    except Exception as e:
+        logging.error("Error scraping %s: %s", url, e)
+        div_content = None
     progress.update()
-    return data
+    return div_content
 
 async def gather_tasks(urls: list[str], progress: tqdm):
     session = AsyncHTMLSession()
-    tasks = [scrape_roast_review(session, url, progress) for url in urls]
+    tasks = [fetch_roast_review(session, url, progress) for url in urls]
     return await asyncio.gather(*tasks)
 
 def main():
     with open(DATA_INPUT, 'rb') as f:
-        urls = pickle.load(f)
+        urls = pickle.load(f)[0: 1000: 100]
 
     start = perf_counter()
     progress_bar = tqdm(total=len(urls), desc="Scraping roast pages")
@@ -48,11 +55,7 @@ def main():
     progress_bar.close()
     end = perf_counter()
 
-    print(results)
     print(f"Ran in {end- start:0.4f} seconds")
 
-    with open(DATA_OUTPUT, 'w', encoding="utf-8") as fout:
+    with open('data/raw-roast-reviews.json', 'w', encoding="utf-8") as fout:
         json.dump(results, fout)
-
-if __name__ == '__main__':
-    main()
