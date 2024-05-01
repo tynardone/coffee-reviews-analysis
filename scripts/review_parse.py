@@ -43,8 +43,9 @@ def find_string(soup, selector, attribute=None, find_next_selector=None, **kwarg
            )
         return None
 
-def parse_review_soup(soup: BeautifulSoup) -> dict:
+def parse_review_soup(html: str) -> dict:
     """ Parse HTML content and return a dictionary of key-value pairs."""
+    soup = BeautifulSoup(html, 'html.parser')
     data = {
         'rating': find_string(soup, 'span', class_='review-template-rating'),
         'roaster': find_string(soup, 'p', class_='review-roaster'),
@@ -63,8 +64,7 @@ def main() -> None:
     """
     with open(test_html_path, 'r', encoding='utf-8') as f:
         html_content = f.read()
-    soup = BeautifulSoup(html_content, 'html.parser')
-    parsed_data = parse_review_soup(soup)
+    parsed_data = parse_review_soup(html_content)
     print(parsed_data)
 
 if __name__ == '__main__':
