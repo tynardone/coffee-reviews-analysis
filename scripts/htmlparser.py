@@ -103,7 +103,7 @@ def parse_html(html: str) -> dict:
     return data
 
 if __name__ == '__main__':
-    html_files = [file for file in html_dir.glob('*.html')]
+    html_files = list(html_dir.glob('*.html'))
     for file in html_files:
         with open(file, 'r', encoding='utf-8') as f:
             html = f.read()
