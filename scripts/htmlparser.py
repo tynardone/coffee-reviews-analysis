@@ -7,6 +7,9 @@ from bs4 import BeautifulSoup
 # In main function test html is laoded from tests/html/ and parsed using function.
 # FUnction needs to be able to be imported into async_scrape_roast_reviews.py
 
+logger = logging.getLogger(__name__)
+logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(name)s - %(levelname)s - %(message)s')
+
 current_file = Path(__file__)
 root_dir = current_file.parent.parent
 html_dir = root_dir / 'tests' / 'html'
@@ -27,6 +30,7 @@ def _parse_tables(soup: BeautifulSoup) -> dict:
             cells = row.find_all('td')
             if len(cells) == 2:
                 data[cells[0].string.strip()] = cells[1].string.strip()
+    logger.info("Parsed %s table rows.", len(data))
     return data
 
 def _parse_class(soup: BeautifulSoup, element: str, class_: str) -> str:
@@ -40,10 +44,11 @@ def _parse_class(soup: BeautifulSoup, element: str, class_: str) -> str:
     Returns:
         str: Data from given element and class.
     """
-    try:
-        return soup.find(element, class_=class_).string.strip()
-    except AttributeError:
-        return None
+    element = soup.find(element, class_=class_)
+    if element:
+        return element.string.strip()
+    logger.warning("No data found for %s with class %s.", element, class_)
+    return None
 
 def _parse_string_next(soup: BeautifulSoup, find_element: str, next_element:str, string: str, ) -> str:
     """Finds an element by type and string and returns text from the next element.
@@ -55,16 +60,15 @@ def _parse_string_next(soup: BeautifulSoup, find_element: str, next_element:str,
     Returns:
         str: Data from the element after the search element containing the search string
     """
-    try:
-        return (soup
-                .find(find_element, string= re.compile(string))
-                .find_next(next_element)
-                .get_text().strip()
-        )
-    except AttributeError:
-        return None
+    element = soup.find(find_element, string= re.compile(string))
+    if element:
+        next_element = element.find_next(next_element)
+        if next_element:
+            return next_element.get_text().strip()
+    logging.warning("No data found for %s with string %s.", find_element, string)
+    return None
 
-def parse_html(html: str) -> dict:
+def parse_html(html: str) -> dict: 
     """Parses HTML from coffeereview.com review html and 
     returns a dictionary of the parsed data.
 
@@ -77,7 +81,7 @@ def parse_html(html: str) -> dict:
     data = {}
     soup = BeautifulSoup(html, 'html.parser')
 
-    rating = _parse_class(soup, 'p', 'review-rating')
+    rating = _parse_class(soup, 'span', 'review-template-rating')
     roaster = _parse_class(soup, 'p', 'review-roaster')
     title = _parse_class(soup, 'h1', 'review-title')
 
@@ -94,7 +98,8 @@ def parse_html(html: str) -> dict:
     data['notes'] = notes
     data['bottom line'] = bottom_line
     data.update(table_data)
-    
+    n_fields = len(data)
+    logging.info("Parsed %s data fields for %s - %s.", n_fields, roaster, title)
     return data
 
 if __name__ == '__main__':
@@ -104,4 +109,3 @@ if __name__ == '__main__':
             html = f.read()
             data = parse_html(html)
             print(data)
-            
