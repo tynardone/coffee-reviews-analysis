@@ -6,6 +6,7 @@ from rich import print
 # Setup basic configuration for logging
 logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')
 
+# Set project directory root and path to html file for testing 
 base_path = Path(__file__).parent.parent
 test_html_path = base_path / 'tests/test_review_parse.html'
 
