@@ -40,7 +40,10 @@ async def fetch_roast_review(session: AsyncHTMLSession, url: str, progress: tqdm
         data['url'] = url
     except Exception as e:
         logging.error("Error scraping %s: %s", url, e)
-        div_content = None
+        data = None
+    for item in data.items():
+        if item[1] is None:
+            logging.warning("Missing data for %s in %s", item[0], url)
     progress.update()
     return data
 
@@ -51,7 +54,7 @@ async def gather_tasks(urls: list[str], progress: tqdm):
 
 def main():
     with open(DATA_INPUT, 'rb') as f:
-        urls = pickle.load(f)[0: 1000: 100]
+        urls = pickle.load(f)
 
     start = perf_counter()
     progress_bar = tqdm(total=len(urls), desc="Scraping roast pages")

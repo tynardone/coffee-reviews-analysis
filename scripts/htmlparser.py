@@ -8,7 +8,7 @@ from bs4 import BeautifulSoup
 # FUnction needs to be able to be imported into async_scrape_roast_reviews.py
 
 logger = logging.getLogger(__name__)
-logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(message)s')
+logging.basicConfig(level=logging.WARNING, format='%(asctime)s - %(levelname)s - %(message)s')
 
 current_file = Path(__file__)
 root_dir = current_file.parent.parent
@@ -44,10 +44,10 @@ def _parse_class(soup: BeautifulSoup, element: str, class_: str) -> str:
     Returns:
         str: Data from given element and class.
     """
-    element = soup.find(element, class_=class_)
-    if element:
-        return element.string.strip()
-    logger.warning("No data found for %s with class %s.", element, class_)
+    found_element = soup.find(element, class_=class_)
+    if found_element:
+        return found_element.string.strip()
+    logger.warning("No data found for %s with class %s.", found_element, class_)
     return None
 
 def _parse_string_next(soup: BeautifulSoup, find_element: str, next_element:str, string: str, ) -> str:
@@ -60,12 +60,12 @@ def _parse_string_next(soup: BeautifulSoup, find_element: str, next_element:str,
     Returns:
         str: Data from the element after the search element containing the search string
     """
+
     element = soup.find(find_element, string= re.compile(string))
     if element:
-        next_element = element.find_next(next_element)
-        if next_element:
-            return next_element.get_text().strip()
-    logging.warning("No data found for %s with string %s.", find_element, string)
+        found_next_element = element.find_next(next_element)
+        if found_next_element:
+            return found_next_element.get_text().strip()
     return None
 
 def parse_html(html: str) -> dict: 
@@ -87,6 +87,10 @@ def parse_html(html: str) -> dict:
 
     blind_assessment = _parse_string_next(soup, 'h2', 'p', 'Blind Assessment')
     notes = _parse_string_next(soup, 'h2', 'span', 'Notes')
+    if not notes:
+        notes = _parse_string_next(soup, 'h2', 'p', 'Notes')
+    
+    # Older reviews do NOT have a bottom line
     bottom_line = _parse_string_next(soup, 'h2', 'p', 'Bottom Line')
 
     table_data = _parse_tables(soup)
@@ -98,6 +102,7 @@ def parse_html(html: str) -> dict:
     data['notes'] = notes
     data['bottom line'] = bottom_line
     data.update(table_data)
+    
     n_fields = len(data)
     logging.info("Parsed %s data fields for %s - %s.", n_fields, roaster, title)
     return data
