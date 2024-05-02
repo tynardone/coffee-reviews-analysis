@@ -8,11 +8,13 @@ for further processing.
 import asyncio
 import pickle
 import json
+from pathlib import Path
 from time import perf_counter
 import logging
 from requests_html import AsyncHTMLSession
 from tqdm import tqdm
 from bs4 import BeautifulSoup
+from htmlparser import parse_html
 
 logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')
 
@@ -22,8 +24,8 @@ FEATURE_LIST = ['Roaster Location', 'Coffee Origin', 'Roast Level', 'Aroma',
                 'Acidity/Structure', 'Acidity', 'Body', 'Flavor', 'Aftertaste',
                 'Agtron', 'Blind Assessment', 'Notes', 'Bottom Line',
                 'Est. Price']
-DATA_INPUT = 'data/processed/roast-urls.pkl'
-DATA_OUTPUT = 'data/raw/raw-roasts-reviews-test.json'
+DATA_INPUT = Path('data/raw/roast-urls.pkl')
+DATA_OUTPUT = Path('data/raw/raw-roasts-reviews-test.json')
 
 async def fetch_roast_review(session: AsyncHTMLSession, url: str, progress: tqdm) -> dict:
 
@@ -34,11 +36,13 @@ async def fetch_roast_review(session: AsyncHTMLSession, url: str, progress: tqdm
     try:
         soup = BeautifulSoup(r.text, 'html.parser')
         div_content = soup.find('div', class_='entry-content').prettify()
+        data = parse_html(div_content)
+        data['url'] = url
     except Exception as e:
         logging.error("Error scraping %s: %s", url, e)
         div_content = None
     progress.update()
-    return div_content
+    return data
 
 async def gather_tasks(urls: list[str], progress: tqdm):
     session = AsyncHTMLSession()
@@ -57,8 +61,8 @@ def main():
 
     print(f"Ran in {end- start:0.4f} seconds")
 
-    with open('data/raw-roast-reviews.json', 'w', encoding="utf-8") as fout:
+    with open(DATA_OUTPUT, 'w', encoding="utf-8") as fout:
         json.dump(results, fout)
-        
+
 if __name__ == '__main__':
     main()
