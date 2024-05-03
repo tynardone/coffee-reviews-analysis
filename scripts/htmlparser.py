@@ -60,9 +60,6 @@ def _parse_string_next(soup: BeautifulSoup, find_element: str, next_element:str,
     Returns:
         str: Data from the element after the search element containing the search string
     """
-    
-    # TODO: Some notes have a p and a span tag, with the span carrying just links so need to pull both
-    # see https://www.coffeereview.com/review/panama-geisha-aroma-roast/ for an example
     element = soup.find(find_element, string= re.compile(string))
     if element:
         found_next_element = element.find_next(next_element)
@@ -88,10 +85,13 @@ def parse_html(html: str) -> dict:
     title = _parse_class(soup, 'h1', 'review-title')
 
     blind_assessment = _parse_string_next(soup, 'h2', 'p', 'Blind Assessment')
+    # TODO: Some notes have a p and a span tag, with the span carrying just links so need to pull both
+    # see https://www.coffeereview.com/review/panama-geisha-aroma-roast/ for an example
+    # I think just swapping attempts so that it tries to find the p tag first and then the span would work
     notes = _parse_string_next(soup, 'h2', 'span', 'Notes')
     if not notes:
         notes = _parse_string_next(soup, 'h2', 'p', 'Notes')
-    
+
     # Older reviews do NOT have a bottom line
     bottom_line = _parse_string_next(soup, 'h2', 'p', 'Bottom Line')
 
@@ -104,7 +104,7 @@ def parse_html(html: str) -> dict:
     data['notes'] = notes
     data['bottom line'] = bottom_line
     data.update(table_data)
-    
+
     n_fields = len(data)
     logging.info("Parsed %s data fields for %s - %s.", n_fields, roaster, title)
     return data
