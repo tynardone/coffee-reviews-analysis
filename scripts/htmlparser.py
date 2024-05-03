@@ -87,7 +87,9 @@ def parse_html(html: str) -> dict:
     blind_assessment = _parse_string_next(soup, 'h2', 'p', 'Blind Assessment')
     # TODO: Some notes have a p and a span tag, with the span carrying just links so need to pull both
     # see https://www.coffeereview.com/review/panama-geisha-aroma-roast/ for an example
-    # I think just swapping attempts so that it tries to find the p tag first and then the span would work
+    # Some have n <i> tag see https://www.coffeereview.com/review/camilina-geisha/. 
+    # Looks like will have to pull all text from all elements between Notes and Bottom Line
+    
     notes = _parse_string_next(soup, 'h2', 'span', 'Notes')
     if not notes:
         notes = _parse_string_next(soup, 'h2', 'p', 'Notes')
