@@ -60,7 +60,9 @@ def _parse_string_next(soup: BeautifulSoup, find_element: str, next_element:str,
     Returns:
         str: Data from the element after the search element containing the search string
     """
-
+    
+    # TODO: Some notes have a p and a span tag, with the span carrying just links so need to pull both
+    # see https://www.coffeereview.com/review/panama-geisha-aroma-roast/ for an example
     element = soup.find(find_element, string= re.compile(string))
     if element:
         found_next_element = element.find_next(next_element)

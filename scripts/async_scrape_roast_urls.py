@@ -34,7 +34,8 @@ async def scrape_review_list(session: AsyncHTMLSession, url: str, progress: tqdm
     all_links = r.html.links
     filtered_links = [links for links in all_links
                       if '/review/' in links
-                      and '/page/' not in links]
+                      and '/page/' not in links
+                      and links != 'https://www.coffeereview.com/review/']
     if r.status_code in (429, 504):
         # You can adjust the delay time (in seconds) as needed
         await asyncio.sleep(3)
@@ -57,7 +58,7 @@ def main():
     pbar = tqdm(total=len(urls), desc="Scraping roast urls")
     results = asyncio.run(gather_tasks(urls, progress=pbar))
     pbar.close()
-    flat_list = [item for sublist in results for item in sublist if item != "https://www.coffeereview.com/review/"]
+    flat_list = [item for sublist in results for item in sublist]
     print(f"Found {len(flat_list)} URLS")
     
     with open(DATA_OUTPUT, 'wb') as fout:
