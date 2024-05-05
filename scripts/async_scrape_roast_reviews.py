@@ -8,6 +8,7 @@ for further processing.
 import asyncio
 import pickle
 import json
+import argparse
 from pathlib import Path
 from time import perf_counter
 import logging
@@ -26,6 +27,13 @@ FEATURE_LIST = ['Roaster Location', 'Coffee Origin', 'Roast Level', 'Aroma',
                 'Est. Price']
 DATA_INPUT = Path('data/raw/roast-urls.pkl')
 DATA_OUTPUT = Path('data/raw/raw-roasts-reviews-test.json')
+
+def parse_args():
+    """Parse command-line arguments."""
+    parser = argparse.ArgumentParser(description="URL file.")
+    parser.add_argument("filename", type=str, help="Path to the JSON file")
+    parser.add_argument("-o", "--output", type=str, help="Output directory")
+    return parser.parse_args()
 
 async def fetch_roast_review(session: AsyncHTMLSession, url: str, progress: tqdm) -> dict:
 
@@ -53,7 +61,9 @@ async def gather_tasks(urls: list[str], progress: tqdm):
     return await asyncio.gather(*tasks)
 
 def main():
-    with open(DATA_INPUT, 'rb') as f:
+    args = parse_args()
+    input_file = Path(args.filename)
+    with open(input_file, 'rb') as f:
         urls = pickle.load(f)
 
     start = perf_counter()

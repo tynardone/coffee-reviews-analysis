@@ -67,6 +67,26 @@ def _parse_string_next(soup: BeautifulSoup, find_element: str, next_element:str,
             return found_next_element.get_text().strip()
     return None
 
+def _parse_notes_section(soup: BeautifulSoup) -> str:
+    """Finds the notes section in the HTML and returns the text.
+
+    Args:
+        soup (BeautifulSoup): BeautifulSoup object to parse
+
+    Returns:
+        str: The text from the notes section.
+    """
+    notes = soup.find('h2', string='Notes')
+    # Get text from every element after notes element until the next h2 element
+    if notes:
+        notes_text = ''
+        for element in notes.find_next_siblings():
+            if element.name == 'h2':
+                break
+            notes_text += element.get_text()
+        return notes_text.strip()
+    return None
+
 def parse_html(html: str) -> dict: 
     """Parses HTML from coffeereview.com review html and 
     returns a dictionary of the parsed data.
