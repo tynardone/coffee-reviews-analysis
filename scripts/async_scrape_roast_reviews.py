@@ -12,6 +12,7 @@ import argparse
 from pathlib import Path
 from time import perf_counter
 import logging
+import pandas as pd
 from requests_html import AsyncHTMLSession
 from tqdm import tqdm
 from bs4 import BeautifulSoup
@@ -66,7 +67,9 @@ def main():
     output_file = Path(args.output) if args.output else DATA_OUTPUT
     
     with open(input_file, 'rb') as f:
-        urls = pickle.load(f)
+        if input_file.suffix == '.pkl':
+            urls = pickle.load(f)
+        urls = pd.read_csv(f).url.tolist()
 
     start = perf_counter()
     progress_bar = tqdm(total=len(urls), desc="Scraping roast pages")

@@ -76,7 +76,7 @@ def _parse_notes_section(soup: BeautifulSoup) -> str:
     Returns:
         str: The text from the notes section.
     """
-    notes = soup.find('h2', string='Notes')
+    notes = soup.find('h2', string=re.compile('Notes'))
     # Get text from every element after notes element until the next h2 element
     if notes:
         notes_text = ''
@@ -110,9 +110,7 @@ def parse_html(html: str) -> dict:
     # Some have n <i> tag see https://www.coffeereview.com/review/camilina-geisha/. 
     # Looks like will have to pull all text from all elements between Notes and Bottom Line
     
-    notes = _parse_string_next(soup, 'h2', 'span', 'Notes')
-    if not notes:
-        notes = _parse_string_next(soup, 'h2', 'p', 'Notes')
+    notes = _parse_notes_section(soup)
 
     # Older reviews do NOT have a bottom line
     bottom_line = _parse_string_next(soup, 'h2', 'p', 'Bottom Line')
