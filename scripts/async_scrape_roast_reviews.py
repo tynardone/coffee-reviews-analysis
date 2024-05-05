@@ -42,19 +42,21 @@ async def fetch_roast_review(session: AsyncHTMLSession, url: str, progress: tqdm
     if r.status_code in (429, 504):
         await asyncio.sleep(3)  # Adjust the delay time (in seconds) as needed
         return await fetch_roast_review(session, url, progress)
-    try:
-        soup = BeautifulSoup(r.text, 'html.parser')
-        div_content = soup.find('div', class_='entry-content').prettify()
+
+    soup = BeautifulSoup(r.text, 'html.parser')
+    div_content = soup.find('div', class_='entry-content')
+    if div_content:
+        div_content = div_content.prettify()
         data = parse_html(div_content)
-        data['url'] = url
-    except Exception as e:
-        logging.error("Error scraping %s: %s", url, e)
-        data = None
-    for item in data.items():
-        if item[1] is None:
-            logging.warning("Missing data for %s in %s", item[0], url)
+        if data:
+            for item in data.items():
+                if item[1] is None:
+                    logging.warning("Missing data for %s in %s", item[0], url)
+            data['url'] = url
+            progress.update()
+            return data
     progress.update()
-    return data
+    return None 
 
 async def gather_tasks(urls: list[str], progress: tqdm):
     session = AsyncHTMLSession()
@@ -65,11 +67,12 @@ def main():
     args = parse_args()
     input_file = Path(args.filename)
     output_file = Path(args.output) if args.output else DATA_OUTPUT
-    
+
     with open(input_file, 'rb') as f:
         if input_file.suffix == '.pkl':
             urls = pickle.load(f)
-        urls = pd.read_csv(f).url.tolist()
+        else:
+            urls = pd.read_csv(f).url.tolist()
 
     start = perf_counter()
     progress_bar = tqdm(total=len(urls), desc="Scraping roast pages")
