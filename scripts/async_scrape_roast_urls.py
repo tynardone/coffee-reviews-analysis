@@ -53,7 +53,6 @@ def main():
     """
     Main function to scrape roast review urls.
     """
-    links = []
     urls = [BASE_URL + f"{page_number}/" for page_number in range(1, TOTAL_PAGES)]
     pbar = tqdm(total=len(urls), desc="Scraping roast urls")
     results = asyncio.run(gather_tasks(urls, progress=pbar))

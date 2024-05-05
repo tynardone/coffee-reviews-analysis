@@ -63,6 +63,8 @@ async def gather_tasks(urls: list[str], progress: tqdm):
 def main():
     args = parse_args()
     input_file = Path(args.filename)
+    output_file = Path(args.output) if args.output else DATA_OUTPUT
+    
     with open(input_file, 'rb') as f:
         urls = pickle.load(f)
 
@@ -72,9 +74,9 @@ def main():
     progress_bar.close()
     end = perf_counter()
 
-    print(f"Ran in {end- start:0.4f} seconds")
+    print(f"Ran in {end - start:0.4f} seconds")
 
-    with open(DATA_OUTPUT, 'w', encoding="utf-8") as fout:
+    with open(output_file, 'w', encoding="utf-8") as fout:
         json.dump(results, fout)
 
 if __name__ == '__main__':
