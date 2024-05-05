@@ -83,8 +83,9 @@ def _parse_notes_section(soup: BeautifulSoup) -> str:
         for element in notes.find_next_siblings():
             if element.name == 'h2':
                 break
-            notes_text += element.get_text()
-        return notes_text.strip()
+            notes_text += element.get_text().strip()
+            notes_text_cleaned = re.sub(r'\s+', ' ', notes_text)
+        return notes_text_cleaned
     return None
 
 def parse_html(html: str) -> dict: 
