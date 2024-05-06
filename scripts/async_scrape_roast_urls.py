@@ -16,7 +16,7 @@ USER_AGENT = ('Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) '
               'AppleWebKit/537.36 (KHTML, like Gecko) '
               'Chrome/114.0.0.0')
 TOTAL_PAGES = 388
-DATA_OUTPUT = 'data/raw/roast-urls.pkl'
+DATA_OUTPUT = 'data/raw/roast_urls.pkl'
 
 async def scrape_review_list(session: AsyncHTMLSession, url: str, progress: tqdm) -> list[str]:
     """

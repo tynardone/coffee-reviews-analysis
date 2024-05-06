@@ -26,8 +26,8 @@ FEATURE_LIST = ['Roaster Location', 'Coffee Origin', 'Roast Level', 'Aroma',
                 'Acidity/Structure', 'Acidity', 'Body', 'Flavor', 'Aftertaste',
                 'Agtron', 'Blind Assessment', 'Notes', 'Bottom Line',
                 'Est. Price']
-DATA_INPUT = Path('data/raw/roast-urls.pkl')
-DATA_OUTPUT = Path('data/raw/raw-roasts-reviews-test.json')
+DATA_INPUT = Path('data/raw/roast_urls.pkl')
+DATA_OUTPUT = Path('data/raw/raw_roasts_reviews_test.json')
 
 def parse_args():
     """Parse command-line arguments."""

@@ -101,9 +101,9 @@ def parse_html(html: str) -> dict:
     data = {}
     soup = BeautifulSoup(html, 'html.parser')
 
-    rating = _parse_class(soup, 'span', 'review-template-rating')
-    roaster = _parse_class(soup, 'p', 'review-roaster')
-    title = _parse_class(soup, 'h1', 'review-title')
+    rating = _parse_class(soup, 'span', 'review_template_rating')
+    roaster = _parse_class(soup, 'p', 'review_roaster')
+    title = _parse_class(soup, 'h1', 'review_title')
 
     blind_assessment = _parse_string_next(soup, 'h2', 'p', 'Blind Assessment')
     # TODO: Some notes have a p and a span tag, with the span carrying just links so need to pull both
