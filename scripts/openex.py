@@ -18,7 +18,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 project_root = Path(__file__).resolve().parent.parent
 
 # Define relative paths using the base path
-DATES_CSV_PATH = project_root / 'data' / 'interim' / 'dates.csv'
+DATES_CSV_PATH = project_root / 'data' / 'processed' / 'review_dates.csv'
 OUTPUT_JSON_PATH = project_root / 'data' / 'external' / 'openex_exchange_rates.json'
 
 # Url for the OpenExchangeRates API
