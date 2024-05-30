@@ -1,4 +1,4 @@
-# CoffeeReview.com Web Scraping and Data Analysis
+# CoffeeReview.com web scrape and data analysis project
 
 TODO: 
 Fix Notes scraping and rerun, then join Notes to the open-refine proecessed data
