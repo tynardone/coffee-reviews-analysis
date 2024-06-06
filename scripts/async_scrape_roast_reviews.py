@@ -12,10 +12,12 @@ import argparse
 from pathlib import Path
 from time import perf_counter
 import logging
+
 import pandas as pd
 from requests_html import AsyncHTMLSession
 from tqdm import tqdm
 from bs4 import BeautifulSoup
+
 from htmlparser import parse_html
 
 logging.basicConfig(level=logging.ERROR, format='%(asctime)s - %(levelname)s - %(message)s')

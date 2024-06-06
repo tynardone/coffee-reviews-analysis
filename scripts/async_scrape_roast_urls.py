@@ -59,7 +59,7 @@ def main():
     pbar.close()
     flat_list = [item for sublist in results for item in sublist]
     print(f"Found {len(flat_list)} URLS")
-    
+
     with open(DATA_OUTPUT, 'wb') as fout:
         pickle.dump(flat_list, fout)
 

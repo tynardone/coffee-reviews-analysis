@@ -3,9 +3,9 @@ import re
 from pathlib import Path
 from bs4 import BeautifulSoup
 
-# Function for parsing review data from HTML scraped in async_scrape_roast_reviews.py
-# In main function test html is laoded from tests/html/ and parsed using function.
-# FUnction needs to be able to be imported into async_scrape_roast_reviews.py
+# Function parse_html for parsing review data from HTML scraped in async_scrape_roast_reviews.py
+# In main function test html is loaded from tests/html/ and parsed using function.
+# parse_html imported into async_scrape_roast_reviews.py
 
 logger = logging.getLogger(__name__)
 logging.basicConfig(level=logging.WARNING, format='%(asctime)s - %(levelname)s - %(message)s')
