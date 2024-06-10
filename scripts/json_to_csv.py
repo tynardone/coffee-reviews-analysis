@@ -54,8 +54,10 @@ def main():
         csv_filepath = create_csv_filepath(json_filepath, output_dir)
         df.to_csv(csv_filepath, index=False)
         logging.info("Conversion successful. CSV saved at: %s", csv_filepath)
-    except Exception as e:
-        logging.error("Error: %s", e)
+    except pd.errors.EmptyDataError:
+        logging.error("The provided JSON file is empty.")
+    except ValueError as ve:
+        logging.error("Value Error: %s", ve)
 
 if __name__ == "__main__":
     main()

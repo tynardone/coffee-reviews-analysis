@@ -28,6 +28,7 @@ FEATURE_LIST = ['Roaster Location', 'Coffee Origin', 'Roast Level', 'Aroma',
                 'Acidity/Structure', 'Acidity', 'Body', 'Flavor', 'Aftertaste',
                 'Agtron', 'Blind Assessment', 'Notes', 'Bottom Line',
                 'Est. Price']
+
 DATA_INPUT = Path('data/raw/roast_urls.pkl')
 DATA_OUTPUT = Path('data/raw/raw_roasts_reviews.json')
 

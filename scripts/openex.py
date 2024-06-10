@@ -1,3 +1,5 @@
+"""Fetches historical exchange rates from the OpenExchangeRates API."""
+
 import json
 import os
 import logging
@@ -17,7 +19,7 @@ logging.basicConfig(level=logging.INFO, format='%(asctime)s - %(levelname)s - %(
 # Define base paths
 project_root = Path(__file__).resolve().parent.parent
 
-# Define relative paths using the base path
+# Define directory paths from base path
 DATES_CSV_PATH = project_root / 'data' / 'processed' / 'review_dates.csv'
 OUTPUT_JSON_PATH = project_root / 'data' / 'external' / 'openex_exchange_rates.json'
 
@@ -30,7 +32,11 @@ def load_api_id() -> str:
     Returns:
         str: OpenExchangeRates API ID
     """
-    return os.getenv('OPENEXCHANGERATES_API_ID')
+    api_id = os.getenv('OPENEXCHANGERATES_API_ID')
+    if not api_id:
+        logging.error("API ID not found. Please set OPENEXCHANGERATES_API_ID in your environment.")
+        raise ValueError("API ID not found.")
+    return api_id
 
 def load_date_list(file_path: str) -> list[str]:
     """Loads a list of dates from a CSV file.
@@ -69,7 +75,10 @@ def fetch_rate_for_date(date: str, api_url: str, headers: dict,
 
 def main():
     """Fetch and save exchange rates for provided dates."""
-    headers = {"accept": "application/json"}
+    headers = {"accept": "application/json",
+               "user-agent": "Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) \
+                   AppleWebKit/537.36 (KHTML, like Gecko) Chrome/125.0.0.0 Safari/537.36"
+               }
     params = {'app_id': load_api_id()}
 
     dates = load_date_list(DATES_CSV_PATH)
