@@ -4,6 +4,7 @@ import json
 import os
 import logging
 from pathlib import Path
+
 import requests
 import pandas as pd
 from dotenv import load_dotenv
